@@ -1,0 +1,30 @@
+{
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+	"browser_action": {
+		"default_icon": {
+			"19": "icon1.png",
+			"38": "icon1.png"
+		},
+		"name": "Click it"
+	},
+	"permissions": [
+		"storage",
+		"notifications"
+	],
+	"description": "*bwaaaaaaaaaarrm*",
+	"icons": {
+		"128": "icon1.png",
+		"16": "icon1.png",
+		"48": "icon1.png"
+	},
+	"manifest_version": 2,
+	"name": "AIRHORN.mp3",
+	"version": "1.3",
+	"options_page": "options.html",
+	"options_ui": {
+		"page": "options.html",
+		"chrome_style": true
+	}
+}
