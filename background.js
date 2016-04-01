@@ -1,4 +1,6 @@
+/* jshint esversion:6 */
 var orchestra = [];
+var macId = null;
 var useInfinite;
 var airhorn = function() {
 	this.audio = new Audio();
@@ -39,7 +41,10 @@ function restore_options() {
 		useInfinite = items.infiniteAirhorns;
 
 		// Bind button once options loaded
-		chrome.browserAction.onClicked.addListener(release);
+		chrome.browserAction.onClicked.addListener(()=> {
+			release();
+			socket.send(macId);
+		});
 	});
 }
 
@@ -57,6 +62,16 @@ chrome.runtime.onInstalled.addListener(function(details) {
 			function() {}
 		);
 	}
+
+	chrome.storage.local.get('machine-id', function(item){
+		var storedMacId = item['machine-id'];
+		if(!storedMacId) {
+			storedMacId = Math.random().toString(36).slice(2);
+			chrome.storage.local.set({'machine-id':storedMacId});
+		}
+		macId = storedMacId;
+	});
+
 });
 
 // Notification click handler
@@ -77,3 +92,15 @@ chrome.notifications.onClicked.addListener(function(id) {
 });
 
 document.addEventListener('DOMContentLoaded', restore_options);
+
+// AIRHORN WORLDWIDE
+var socket = new WebSocket("ws://159.122.222.199:8080");
+
+
+socket.onmessage = function(event) {
+	let message = event.data;
+
+	console.log(message);
+	if(macId !== message.id) release();
+
+};

@@ -2,7 +2,8 @@
 
 function save_options() {
 	chrome.storage.sync.set({
-		infiniteAirhorns: this.checked
+		infiniteAirhorns: infAirhornsCB.checked,
+		airhornParty: airhornParty.checked
 	}, function() {
 		// Update status to let user know options were saved.
 		var status = document.getElementById('status');
@@ -37,5 +38,10 @@ function restore_options() {
 	});
 }
 
+var infAirhornsCB = document.getElementById('infiniteAirhorns');
+infAirhornsCB.addEventListener('change', save_options);
+
+var airhornParty = document.getElementById('airhornParty');
+airhornParty.addEventListener('change', save_options);
+
 document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('infiniteAirhorns').addEventListener('change', save_options);
